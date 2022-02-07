@@ -1,0 +1,122 @@
+<loading-bar *ngIf="loading"></loading-bar>
+<mat-card *ngIf="!loading" class="mat-elevation-z5">
+  <mat-card-title>
+    <span class="font-primary">Ventes</span>
+    <div class="buttons-wrapper float-right">
+      <button (click)="onAdd()" color="primary" mat-raised-button>Créer</button>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-form-field>
+      <input
+        (keyup)="applyFilter($event.target.value)"
+        matInput
+        placeholder="Rechercher"
+      />
+    </mat-form-field>
+
+    <div class="mat-table-wrapper">
+      <table mat-table [dataSource]="dataSource" matSort matSortActive="date" matSortDirection="desc">
+        <ng-container matColumnDef="date" sticky>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-accent"
+          >
+            Date
+          </th>
+          <td mat-cell *matCellDef="let sale">
+            Le {{ sale.date | date: "EEEE dd LLLL yyyy":"":"fr-BE" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="patient">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-accent"
+          >
+            Patient
+          </th>
+          <td mat-cell *matCellDef="let sale">
+            {{ sale.patient.lastName }} {{ sale.patient.firstName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="paid">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-accent"
+          >
+            Payé
+          </th>
+          <td mat-cell *matCellDef="let sale">
+            {{ isPaid(sale) ? "Oui" : "Non" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="toPay">
+          <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-accent">
+            Montant
+          </th>
+          <td mat-cell *matCellDef="let sale">
+            {{ computeTotalToPayFormatted(sale) }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th
+            *matHeaderCellDef
+            class="font-accent"
+            mat-header-cell
+            mat-sort-header
+          ></th>
+          <td *matCellDef="let sale" class="center" mat-cell>
+            <mat-icon
+              *ngIf="!isPaid(sale)"
+              (click)="pay(sale); $event.stopPropagation()"
+              color="primary"
+              [matTooltip]="getRemaingToPayFormatted(sale)">
+              point_of_sale
+            </mat-icon>
+            <mat-icon
+              (click)="remove(sale); $event.stopPropagation()"
+              color="primary"
+              [ngClass]="{ 'orphan-icon': isPaid(sale) }"
+              >delete</mat-icon
+            >
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+        <tr
+          (click)="edit(sale)"
+          *matRowDef="let sale; columns: displayedColumns"
+          class="selectable"
+          mat-row
+        ></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="center" [colSpan]="displayedColumns.length">
+            Aucun élément
+          </td>
+        </tr>
+      </table>
+
+      <mat-paginator [length]="sales?.length"
+                     [pageSize]="10"
+                     [pageSizeOptions]="[10, 15, 20, 50, 100]"
+                     showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

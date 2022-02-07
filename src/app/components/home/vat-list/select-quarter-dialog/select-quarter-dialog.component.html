@@ -1,0 +1,35 @@
+<loading-bar *ngIf="loading"></loading-bar>
+<h1 mat-dialog-title>
+    <mat-icon class="icon" color="primary">file_download</mat-icon>
+    Export TVA
+</h1>
+<form>
+    <div mat-dialog-content>
+        <mat-form-field>
+            <mat-label>Choisissez un trimestre à exporter</mat-label>
+            <mat-select [(value)]="selectedQuarter">
+                <mat-option *ngFor="let quarter of quarters" [value]="quarter">
+                    {{ 'Trimestre ' + quarter.number + ' ' + quarter.year}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="float-right" mat-dialog-actions>
+        <button
+                (click)="onCancel()"
+                mat-button
+                type="button"
+                [disabled]="loading">
+            Annuler
+        </button>
+        <button
+                (click)="onExport()"
+                class="primary-button"
+                color="primary"
+                mat-raised-button
+                type="submit"
+                [disabled]="loading">
+            Exporter
+        </button>
+    </div>
+</form>

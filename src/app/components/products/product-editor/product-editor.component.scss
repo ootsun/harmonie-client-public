@@ -1,0 +1,44 @@
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #lossId {
+    display: none;
+  }
+}
+
+mat-form-field, .vat-amount-radio-group {
+  margin: 15px;
+}
+
+.action-bar {
+  text-align: end;
+}
+
+#title {
+  width: 25%;
+}
+
+#price, #stock {
+  width: 10%;
+}
+
+#price mat-icon {
+  transform: scale(0.7);
+  vertical-align: middle;
+}
+
+.center-button {
+  margin: 15px auto;
+  display: block;
+}
+
+.vat-amount-radio-button {
+  vertical-align: text-top;
+  margin: 5px;
+}
+
+.vat-amount-radio-group {
+  width: 18%;
+}

@@ -1,0 +1,85 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+mat-form-field, .gender-radio-group, #nbChildrenWrapper {
+  margin: 15px;
+}
+
+#lastName {
+  width: 14%;
+}
+
+#firstName {
+  width: 14%;
+}
+
+#phone {
+  width: 12%;
+}
+
+#mobile {
+  width: 12%;
+}
+
+#email {
+  width: 18%;
+}
+
+#country {
+  width: 14%;
+}
+
+#zipCode {
+  width: 14%;
+}
+
+#city {
+  width: 12%;
+}
+
+#number {
+  width: 12%;
+}
+
+#street {
+ width: 18%;
+}
+
+#subscriptionDate {
+  width: 14%;
+}
+
+#birthDate {
+  width: 14%;
+}
+
+#nbChildren {
+  display: flex;
+  flex-direction: column;
+}
+
+#nbChildrenWrapper {
+  display: inline-block;
+  width: 12%;
+  vertical-align: top;
+}
+
+#job {
+  width: 12%;
+}
+
+.gender-radio-button {
+  vertical-align: text-top;
+  margin: 5px;
+}
+
+.gender-radio-group {
+  width: 18%;
+}
+
+.action-bar {
+  text-align: end;
+}

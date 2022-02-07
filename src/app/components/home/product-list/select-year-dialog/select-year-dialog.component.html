@@ -1,0 +1,32 @@
+<loading-bar *ngIf="loading"></loading-bar>
+<h1 mat-dialog-title>
+    <mat-icon class="icon" color="primary">file_download</mat-icon>
+    Export des pertes
+</h1>
+<form [formGroup]="selectYearForm" autocomplete="off">
+    <div mat-dialog-content>
+        <mat-form-field>
+            <mat-label>Choisissez une année à exporter</mat-label>
+            <input formControlName="selectedYear" matInput type="number" autocomplete="off"/>
+            <mat-error>Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="float-right" mat-dialog-actions>
+        <button
+                (click)="onCancel()"
+                mat-button
+                type="button"
+                [disabled]="loading">
+            Annuler
+        </button>
+        <button
+                (click)="onExport()"
+                class="primary-button"
+                color="primary"
+                mat-raised-button
+                type="submit"
+                [disabled]="loading || selectYearForm.invalid">
+            Exporter
+        </button>
+    </div>
+</form>

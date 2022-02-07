@@ -1,0 +1,117 @@
+<loading-bar *ngIf="waiting"></loading-bar>
+<mat-card *ngIf="!waiting" class="mat-elevation-z5">
+  <mat-card-title class="font-primary back-button-wrapper">
+    <mat-icon color="accent" class="selectable back-button" backButton>arrow_back</mat-icon>
+    <span *ngIf="!editing">Entrez </span><span *ngIf="editing">Modifiez</span>
+    &nbsp;les informations du soin
+  </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="careForm" autocomplete="off">
+      <div class="row">
+        <mat-form-field id="date">
+          <input
+            [matDatepicker]="datePicker"
+            [max]="maxDate"
+            formControlName="date"
+            matInput
+            placeholder="Date*"
+          />
+          <mat-datepicker-toggle
+            [for]="datePicker"
+            matSuffix
+          ></mat-datepicker-toggle>
+          <mat-datepicker #datePicker disabled="false"></mat-datepicker>
+          <mat-error>Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+
+        <mat-form-field id="type" class="autocomplete-input">
+          <mat-label>Type</mat-label>
+          <mat-select
+            formControlName="type"
+            matInput
+            (selectionChange)="typeChanged()"
+            [compareWith]="compareFunction"
+          >
+            <mat-option *ngFor="let type of careTypes" [value]="type">
+              {{ type.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field id="patient" class="autocomplete-input">
+          <mat-label>Patient</mat-label>
+          <input type="text"
+           matInput
+           formControlName="patient"
+           required
+           [matAutocomplete]="autoGroup">
+          <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayPatientFn">
+            <mat-optgroup *ngFor="let group of patientGroupOptions | async" [label]="group.letter">
+              <mat-option *ngFor="let patient of group.patients" [value]="patient">
+                {{displayPatientFn(patient)}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field id="toPay">
+          <input
+            autocomplete="off"
+            formControlName="toPay"
+            matInput
+            placeholder="A payer*"
+            type="number"
+          />
+          <mat-error>Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+
+        <button mat-icon-button
+                [disabled]="careForm.controls.toPay.value === careForm.controls.paid.value"
+                (click)="pay(); $event.stopPropagation()"
+                color="primary"
+                matTooltip="Marquer comme payé"
+        ><mat-icon>point_of_sale</mat-icon></button>
+
+        <mat-form-field id="paid">
+          <input
+            autocomplete="off"
+            formControlName="paid"
+            matInput
+            placeholder="Payé"
+            type="number"
+          />
+        </mat-form-field>
+
+        <app-payment-methods-selector [paymentMethodsCtrl]="careForm.controls.paymentMethods"></app-payment-methods-selector>
+      </div>
+
+      <div class="row">
+        <mat-form-field id="note">
+          <input
+            autocomplete="off"
+            formControlName="note"
+            matInput
+            placeholder="Note"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="action-bar">
+      <button (click)="onCancel()" mat-button type="button">Annuler</button>
+      <button
+        (click)="onSave()"
+        [disabled]="careForm.invalid || (editing && !careForm.dirty)"
+        class="primary-button"
+        color="primary"
+        mat-raised-button
+        type="submit"
+      >
+        {{ editing ? "Modifier" : "Créer" }}
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

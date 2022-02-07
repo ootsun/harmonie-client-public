@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+    <span
+            [matBadge]="envName"
+            matBadgePosition="after"
+            matBadgeColor="accent"
+            class="app-name">
+        Harmonie</span>
+        <ng-container *ngIf="isAuthenticated">
+            <button *ngIf="!currentUrl.includes('/cares')" mat-raised-button routerLink="/cares">Soins</button>
+            <button *ngIf="currentUrl.includes('/cares')" mat-stroked-button routerLink="/cares">Soins</button>
+            <button *ngIf="!currentUrl.includes('/sales')" mat-raised-button routerLink="/sales">Ventes</button>
+            <button *ngIf="currentUrl.includes('/sales')" mat-stroked-button routerLink="/sales">Ventes</button>
+            <button *ngIf="!currentUrl.includes('/patients')" mat-raised-button routerLink="/patients">Patients</button>
+            <button *ngIf="currentUrl.includes('/patients')" mat-stroked-button routerLink="/patients">Patients</button>
+            <button *ngIf="!currentUrl.includes('/products')" mat-raised-button routerLink="/products">Produits</button>
+            <button *ngIf="currentUrl.includes('/products')" mat-stroked-button routerLink="/products">Produits</button>
+            <button *ngIf="!currentUrl.includes('/courses')" mat-raised-button routerLink="/courses">Cours</button>
+            <button *ngIf="currentUrl.includes('/courses')" mat-stroked-button routerLink="/courses">Cours</button>
+            <button *ngIf="!currentUrl.includes('/vat')" mat-raised-button routerLink="/vat">TVA</button>
+            <button *ngIf="currentUrl.includes('/vat')" mat-stroked-button routerLink="/vat">TVA</button>
+
+            <button class="last-item" mat-button (click)="onLogout()">
+                Déconnexion
+            </button>
+        </ng-container>
+    </mat-toolbar-row>
+</mat-toolbar>

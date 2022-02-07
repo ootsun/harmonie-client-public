@@ -1,0 +1,128 @@
+<loading-bar *ngIf="loading"></loading-bar>
+<mat-card *ngIf="!loading" class="mat-elevation-z5">
+  <mat-card-title>
+    <span class="font-primary">TVA</span>
+    <div id="displayDate">
+      <mat-icon
+              (click)="incrementDisplayDate(-1); $event.stopPropagation()"
+              color="primary"
+              class="selectable"
+      >arrow_left</mat-icon>
+      <span>{{ displayDate | date: "LLLL yyyy":"":"fr-BE" | titlecase }}</span>
+      <mat-icon
+              (click)="incrementDisplayDate(1); $event.stopPropagation()"
+              color="primary"
+              class="selectable"
+      >arrow_right</mat-icon>
+    </div>
+    <div class="buttons-wrapper">
+      <button (click)="onShowExportDialog()" color="primary" mat-raised-button>Exporter<mat-icon class="icon">file_download</mat-icon></button>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-chip-list>
+      <mat-chip>{{'Total soins : ' + getTotalCaresFormatted()}}</mat-chip>
+      <mat-chip>{{'Total ventes : ' + getTotalSalesFormatted()}}</mat-chip>
+      <mat-chip>{{'Total cours : ' + getTotalCoursesFormatted()}}</mat-chip>
+      <mat-chip color="primary" selected>{{'Total : ' + getTotalFormatted()}}</mat-chip>
+    </mat-chip-list>
+
+    <mat-form-field>
+      <input
+        (keyup)="applyFilter($event.target.value)"
+        matInput
+        placeholder="Rechercher"
+      />
+    </mat-form-field>
+
+    <div class="mat-table-wrapper">
+      <table mat-table [dataSource]="dataSource" matSort matSortActive="date" matSortDirection="desc">
+        <ng-container matColumnDef="date" sticky>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-accent date-header"
+          >
+            Date
+          </th>
+          <td mat-cell *matCellDef="let item">
+            Le {{ item.date | date: "EEEE dd LLLL yyyy":"":"fr-BE" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="patient">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-accent"
+          >
+            Patient
+          </th>
+          <td mat-cell *matCellDef="let item">
+            {{ item.patient.lastName }} {{ item.patient.firstName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-accent title-header">
+            Intitulé
+          </th>
+          <td mat-cell *matCellDef="let item">{{ getTitle(item) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="toPay">
+          <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-accent"
+          >
+            Montant
+          </th>
+          <td mat-cell *matCellDef="let item">
+            {{ formatToPay(item) }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th
+            *matHeaderCellDef
+            class="font-accent"
+            mat-header-cell
+            mat-sort-header
+          ></th>
+          <td *matCellDef="let item" mat-cell>
+            <mat-icon
+              (click)="edit(item); $event.stopPropagation()"
+              color="primary"
+              matTooltip="Aller éditer">
+              edit
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr
+          *matRowDef="let item; columns: displayedColumns"
+          mat-row
+        ></tr>
+        <tr class="mat-row no-element-row" *matNoDataRow>
+          <td class="center" [colSpan]="displayedColumns.length">
+            Aucun élément
+          </td>
+        </tr>
+      </table>
+
+      <mat-paginator [length]="dataSource.data.length"
+                     [pageSize]="10"
+                     [pageSizeOptions]="[10, 15, 20, 50, 100]"
+                     showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

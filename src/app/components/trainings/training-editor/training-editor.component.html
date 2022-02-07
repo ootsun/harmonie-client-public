@@ -1,0 +1,31 @@
+<loading-bar *ngIf="waiting"></loading-bar>
+<mat-card *ngIf="!waiting" class="mat-elevation-z5">
+  <mat-card-title class="font-primary back-button-wrapper">
+    <mat-icon color="accent" class="selectable back-button" backButton>arrow_back</mat-icon>
+    <span *ngIf="!editing">Entrez </span><span *ngIf="editing">Modifiez</span>
+    &nbsp;les informations du type de soins
+  </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="trainingForm" autocomplete="off">
+      <div class="row">
+        <mat-form-field id="title">
+          <input autocomplete="off" formControlName="title" matInput placeholder="Titre*">
+          <mat-error>Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="action-bar">
+      <button (click)="onCancel()" mat-button type="button">Annuler</button>
+      <button (click)="onSave()"
+              [disabled]="trainingForm.invalid || (editing && !trainingForm.dirty)"
+              class="primary-button"
+              color=primary
+              mat-raised-button
+              type="submit">
+        {{ editing ? 'Modifier' : 'Créer'}}
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

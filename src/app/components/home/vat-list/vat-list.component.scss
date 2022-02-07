@@ -1,0 +1,68 @@
+mat-card-title {
+  display: flex;
+  justify-content: space-between;
+
+  #displayDate {
+    span {
+      text-transform: capitalize;
+    }
+    mat-icon {
+      transform: scale(2);
+      padding-top: 5px;
+    }
+  }
+}
+
+mat-chip-list {
+  width: 100%;
+  background-color: #8DD6FF;
+  ::ng-deep .mat-chip-list-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+table {
+  width: 100%;
+
+  .mat-column-date {
+    width: 20%;
+  }
+
+  .mat-column-patient {
+    width: 20%;
+  }
+
+  .mat-column-title {
+    width: 30%;
+  }
+
+  .mat-column-toPay {
+    width: 15%;
+  }
+
+  .mat-column-actions {
+    width: 15%;
+  }
+
+  tr:not(.mat-header-row, .mat-footer-row, .no-element-row) {
+    font-weight: 100;
+  }
+
+  .mat-footer-row {
+    font-style: italic;
+
+    #totalPrice {
+      font-weight: bold;
+    }
+  }
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.orphan-icon {
+  margin-left: 24px;
+}

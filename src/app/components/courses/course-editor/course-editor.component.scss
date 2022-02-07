@@ -1,0 +1,16 @@
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-form-field,
+app-payment-methods-selector,
+mat-checkbox,
+p {
+  margin: 15px;
+}
+
+.action-bar {
+  text-align: end;
+}
